@@ -1,47 +1,38 @@
 <template>
   <div>
-    <template v-if="blog">
-      <h1>{{ blog.title }}</h1>
-      <img :src="blog.image" alt="Blog Image" />
-      <p>{{ blog.content }}</p>
-    </template>
-    <template v-else>
-      <p>Loading...</p>
-    </template>
+    <div v-for="(blog, index) in blogs" :key="index">
+      <BlogCard :title="blog.title" :thumnailUrl="blog.thumnailUrl"></BlogCard>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useBlogStore, Blog } from 'src/stores/blogStore'; // Ensure correct import path and export
+<script setup lang="ts">
+import { computed, onMounted } from 'vue';
+import { useBlogStore } from 'src/stores/blogStore'; // Ensure correct import path and export
+import BlogCard from 'src/components/BlogCard.vue';
 
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 
-export default defineComponent({
-  name: 'BlogDetailsPage',
-  setup() {
-    const blogStore = useBlogStore();
-    const blog = ref<Blog | null>(null);
+const blogStore = useBlogStore();
+// const blogs = ref(null);
+// const blog = ref<Blog | null>(null);
 
-    onMounted(async () => {
-      try {
-        const route = useRoute();
-        const blogId = Number(route.params.id);
-        const fetchedBlog = await blogStore.fetchBlogById(blogId);
-        blog.value = fetchedBlog || null; // Ensure blog.value is either a Blog object or null
-      } catch (error) {
-        console.error('Failed to fetch blog:', error);
-        // Optionally handle error here
-      }
-    });
-
-    return {
-      blog,
-    };
-  },
+onMounted(() => {
+  blogStore.fetchBlogs();
 });
-</script>
 
-<style scoped>
-/* Your component-specific styles here */
-</style>
+const blogs = computed(() => {
+  return blogStore.Blogs;
+});
+// onMounted(async () => {
+//   try {
+//     const route = useRoute();
+//     const blogId = Number(route.params.id);
+//     const fetchedBlog = await blogStore.fetchBlogById(blogId);
+//     blog.value = fetchedBlog || null; // Ensure blog.value is either a Blog object or null
+//   } catch (error) {
+//     console.error('Failed to fetch blog:', error);
+//     // Optionally handle error here
+//   }
+// });
+</script>

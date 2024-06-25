@@ -1,64 +1,38 @@
 <template>
   <div>
-    <button @click="loadBlogs">Load Blogs</button>
-    <div v-if="loading">Loading...</div>
-    <div v-if="error">Error: {{ error }}</div>
-    <div v-if="!loading && !error" class="card-container">
-      <div v-for="blog in blogs" :key="blog.id" class="card">
-        <img :src="blog.image" alt="Blog Image" class="card-image" />
-        <h2 class="card-title">{{ blog.title }}</h2>
-      </div>
-    </div>
+    <q-page padding>
+      <q-card class="q-ma-md" style="max-width: 400px">
+        <q-img
+          :src="thumnailUrl"
+          alt="Blog Image"
+          class="blog-card-image"
+          style="height: 200px"
+          contain
+        />
+        <q-card-section>
+          <div class="text-h6">{{ title }}</div>
+          <div class="text.suubtitle2 text-grey">by Author on 25 june 2024</div>
+        </q-card-section>
+
+        <q-card-section>
+          <p>this is a brief summary of the blog part</p>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Read More" />
+        </q-card-actions>
+      </q-card>
+    </q-page>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useBlogStore } from 'src/stores/blogStore';
-
-export default defineComponent({
-  name: 'BlogList',
-  setup() {
-    const blogStore = useBlogStore();
-
-    const loadBlogs = () => {
-      blogStore.fetchBlogs(); // Call fetchBlogs method from useBlogStore
-    };
-
-    return {
-      blogs: blogStore.blogs,
-      loading: blogStore.loading,
-      error: blogStore.error,
-      loadBlogs,
-    };
+<script setup lang="ts">
+defineProps({
+  title: {
+    type: String,
+  },
+  thumnailUrl: {
+    type: String,
   },
 });
 </script>
-
-<style>
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  width: 300px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-title {
-  padding: 16px;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-</style>
