@@ -9,14 +9,8 @@ interface Blog {
   id: string;
   title: string;
   url: string;
-  thumnailUrl: string; // Add content property if it exists in your blog data
+  thumbnailUrl: string; // Add content property if it exists in your blog data
 }
-
-// interface BlogState {
-//   blogs: Blog[];
-//   loading: boolean;
-//   error: string | null;
-// }
 
 export const useBlogStore = defineStore('blog', () => {
   const Blogs = ref<[Blog] | null>(null);

@@ -3,7 +3,7 @@
     <q-page padding>
       <q-card class="q-ma-md" style="max-width: 400px">
         <q-img
-          :src="thumnailUrl"
+          :src="thumbnailUrl"
           alt="Blog Image"
           class="blog-card-image"
           style="height: 200px"
@@ -31,7 +31,7 @@ defineProps({
   title: {
     type: String,
   },
-  thumnailUrl: {
+  thumbnailUrl: {
     type: String,
   },
 });
